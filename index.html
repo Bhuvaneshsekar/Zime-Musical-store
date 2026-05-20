@@ -1,0 +1,1453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ZIME MUSICAL STORE — Fine Musical Instruments</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Jost:wght@300;400;500;600&family=Cormorant:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* ══════════════════════════════════════
+   DESIGN TOKENS — Warm Elegant Light
+══════════════════════════════════════ */
+:root {
+  --cream:      #faf7f2;
+  --cream2:     #f4f0e8;
+  --cream3:     #ede8de;
+  --parchment:  #e8e0d0;
+  --warm-white: #fffefb;
+  --ink:        #1c1917;
+  --ink2:       #3d3830;
+  --ink3:       #6b6358;
+  --ink4:       #9c9388;
+  --ink5:       #c4bdb5;
+  --terracotta: #b5674a;
+  --terracotta2:#c97d5e;
+  --terracotta-dim: rgba(181,103,74,0.10);
+  --terracotta-dim2: rgba(181,103,74,0.18);
+  --sage:       #7a9e8e;
+  --sage-dim:   rgba(122,158,142,0.12);
+  --dusty-rose: #c4897a;
+  --border:     #ddd8cf;
+  --border2:    #e8e3da;
+  --shadow-sm:  0 2px 12px rgba(28,25,23,0.07);
+  --shadow-md:  0 6px 32px rgba(28,25,23,0.10);
+  --shadow-lg:  0 16px 64px rgba(28,25,23,0.13);
+  --shadow-tc:  0 6px 28px rgba(181,103,74,0.18);
+  --radius:     14px;
+  --radius-sm:  9px;
+  --radius-xs:  6px;
+}
+
+/* ══ RESET & BASE ══ */
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  font-family:'Jost',sans-serif;
+  background:var(--cream);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+::selection{background:var(--terracotta-dim2);color:var(--ink);}
+
+/* ══ SCROLLBAR ══ */
+::-webkit-scrollbar{width:5px;}
+::-webkit-scrollbar-track{background:var(--cream2);}
+::-webkit-scrollbar-thumb{background:var(--parchment);border-radius:3px;}
+::-webkit-scrollbar-thumb:hover{background:var(--terracotta);}
+
+/* ══ UTILITY ══ */
+.hidden{display:none!important;}
+.gold{color:var(--terracotta);}
+.tag{
+  display:inline-block;
+  background:var(--terracotta-dim);
+  color:var(--terracotta);
+  font-size:10px;
+  font-family:'Jost',sans-serif;
+  font-weight:500;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:3px 10px;
+  border-radius:20px;
+  border:1px solid rgba(181,103,74,0.2);
+}
+.tag-sage{background:var(--sage-dim);color:var(--sage);border-color:rgba(122,158,142,0.2);}
+
+/* ══ TOAST ══ */
+#toast{position:fixed;bottom:28px;right:28px;z-index:9999;display:flex;flex-direction:column;gap:10px;}
+.toast-item{
+  background:var(--warm-white);
+  border:1px solid var(--border);
+  border-left:3px solid var(--terracotta);
+  color:var(--ink);
+  padding:14px 18px;
+  border-radius:var(--radius-sm);
+  font-size:13.5px;
+  box-shadow:var(--shadow-md);
+  animation:slideIn .3s ease;
+  display:flex;align-items:center;gap:10px;
+  min-width:260px;
+  font-weight:400;
+}
+.toast-item.error{border-left-color:#c0392b;}
+.toast-item.success{border-left-color:var(--sage);}
+@keyframes slideIn{from{transform:translateX(50px);opacity:0}to{transform:none;opacity:1}}
+
+/* ══ MODAL ══ */
+.modal-overlay{
+  position:fixed;inset:0;
+  background:rgba(28,25,23,0.45);
+  z-index:800;
+  display:flex;align-items:center;justify-content:center;
+  padding:20px;
+  backdrop-filter:blur(8px);
+}
+.modal-box{
+  background:var(--warm-white);
+  border:1px solid var(--border);
+  border-radius:18px;
+  padding:40px;
+  width:100%;max-width:500px;
+  max-height:90vh;overflow-y:auto;
+  position:relative;
+  box-shadow:var(--shadow-lg);
+}
+.modal-box h2{font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:600;margin-bottom:24px;color:var(--ink);}
+.modal-close{
+  position:absolute;top:18px;right:18px;
+  background:var(--cream2);border:1px solid var(--border);
+  color:var(--ink3);width:34px;height:34px;border-radius:50%;
+  cursor:pointer;font-size:16px;
+  display:flex;align-items:center;justify-content:center;
+  transition:.2s;
+}
+.modal-close:hover{background:var(--cream3);color:var(--ink);}
+
+/* ══ FORMS ══ */
+.form-group{margin-bottom:18px;}
+.form-group label{display:block;font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--ink3);margin-bottom:7px;font-weight:500;}
+.form-group input,.form-group select,.form-group textarea{
+  width:100%;
+  background:var(--cream);
+  border:1px solid var(--border);
+  border-radius:var(--radius-sm);
+  color:var(--ink);
+  padding:12px 14px;
+  font-family:'Jost',sans-serif;
+  font-size:14px;
+  outline:none;
+  transition:.2s;
+}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{
+  border-color:var(--terracotta);
+  background:var(--warm-white);
+  box-shadow:0 0 0 3px var(--terracotta-dim);
+}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* ══ BUTTONS ══ */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:12px 26px;border-radius:var(--radius-sm);
+  font-family:'Jost',sans-serif;font-size:13.5px;font-weight:500;
+  cursor:pointer;border:none;transition:all .22s;text-decoration:none;
+  letter-spacing:.03em;
+}
+.btn-primary{background:var(--terracotta);color:#fff;}
+.btn-primary:hover{background:var(--terracotta2);transform:translateY(-1px);box-shadow:var(--shadow-tc);}
+.btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--ink2);}
+.btn-outline:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.btn-ghost{background:transparent;color:var(--ink3);}
+.btn-ghost:hover{color:var(--ink);}
+.btn-sage{background:var(--sage);color:#fff;}
+.btn-sage:hover{opacity:.9;}
+.btn-danger{background:rgba(192,57,43,.08);color:#c0392b;border:1px solid rgba(192,57,43,.15);}
+.btn-danger:hover{background:rgba(192,57,43,.15);}
+.btn-full{width:100%;}
+.btn-lg{padding:15px 36px;font-size:15px;border-radius:var(--radius);}
+.btn-sm{padding:7px 16px;font-size:12.5px;border-radius:var(--radius-xs);}
+
+/* ══════════════════════════════════════
+   HEADER
+══════════════════════════════════════ */
+header{
+  position:sticky;top:0;z-index:500;
+  background:rgba(250,247,242,0.94);
+  backdrop-filter:blur(20px);
+  border-bottom:1px solid var(--border2);
+}
+.header-top{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 40px;height:72px;gap:24px;
+  max-width:1440px;margin:0 auto;
+}
+.logo{
+  font-family:'Cormorant Garamond',serif;
+  font-size:26px;font-weight:600;
+  letter-spacing:.18em;text-transform:uppercase;
+  text-decoration:none;color:var(--ink);
+  white-space:nowrap;
+}
+.logo span{color:var(--terracotta);}
+.logo em{font-style:italic;font-weight:300;}
+
+/* SEARCH */
+.search-bar{flex:1;max-width:500px;position:relative;}
+.search-bar input{
+  width:100%;
+  background:var(--cream2);
+  border:1px solid var(--border);
+  border-radius:50px;
+  padding:11px 20px 11px 42px;
+  color:var(--ink);font-size:13.5px;
+  outline:none;transition:.2s;
+  font-family:'Jost',sans-serif;
+}
+.search-bar input::placeholder{color:var(--ink4);}
+.search-bar input:focus{background:var(--warm-white);border-color:var(--terracotta);box-shadow:0 0 0 3px var(--terracotta-dim);}
+.search-icon{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--ink4);font-size:15px;pointer-events:none;}
+.search-results{
+  position:absolute;top:calc(100% + 8px);left:0;right:0;
+  background:var(--warm-white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;box-shadow:var(--shadow-md);z-index:100;
+}
+.search-result-item{
+  padding:12px 16px;
+  display:flex;align-items:center;gap:12px;
+  cursor:pointer;transition:.15s;
+}
+.search-result-item:hover{background:var(--cream2);}
+.search-result-item img{width:44px;height:44px;object-fit:cover;border-radius:8px;background:var(--cream3);}
+.sri-name{font-size:13.5px;font-weight:500;color:var(--ink);}
+.sri-brand{font-size:11px;color:var(--ink4);}
+.sri-price{font-size:12px;color:var(--terracotta);font-weight:600;margin-top:1px;}
+
+/* HEADER ACTIONS */
+.header-actions{display:flex;align-items:center;gap:4px;}
+.icon-btn{
+  background:transparent;border:none;cursor:pointer;
+  color:var(--ink3);width:44px;height:44px;border-radius:var(--radius-sm);
+  display:flex;align-items:center;justify-content:center;
+  font-size:19px;transition:.2s;position:relative;
+}
+.icon-btn:hover{background:var(--cream3);color:var(--ink);}
+.icon-btn .badge{
+  position:absolute;top:7px;right:7px;
+  background:var(--terracotta);color:#fff;
+  font-size:9.5px;font-weight:700;
+  min-width:16px;height:16px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Jost',sans-serif;
+}
+
+/* NAVBAR */
+.nav-bar{
+  display:flex;align-items:center;
+  padding:0 40px;
+  overflow-x:auto;border-top:1px solid var(--border2);
+  height:42px;gap:2px;
+  max-width:1440px;margin:0 auto;
+}
+.nav-bar::-webkit-scrollbar{height:0;}
+.nav-link{
+  white-space:nowrap;
+  padding:5px 15px;border-radius:var(--radius-xs);
+  font-size:12.5px;font-weight:500;letter-spacing:.03em;
+  color:var(--ink3);cursor:pointer;transition:.15s;
+  text-decoration:none;border:none;background:transparent;
+}
+.nav-link:hover,.nav-link.active{color:var(--terracotta);background:var(--terracotta-dim);}
+
+/* ══════════════════════════════════════
+   SPA PAGES
+══════════════════════════════════════ */
+.page{display:none;}
+.page.active{display:block;animation:fadeUp .35s ease;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* ══════════════════════════════════════
+   HOME — HERO
+══════════════════════════════════════ */
+.hero{
+  position:relative;overflow:hidden;
+  background:var(--cream2);
+  border-bottom:1px solid var(--border);
+}
+.hero-inner{
+  max-width:1440px;margin:0 auto;
+  padding:90px 40px 80px;
+  display:grid;grid-template-columns:1.1fr 1fr;gap:70px;align-items:center;
+}
+.hero-eyebrow{
+  font-size:11px;letter-spacing:.22em;text-transform:uppercase;
+  color:var(--terracotta);font-weight:500;margin-bottom:20px;
+  display:flex;align-items:center;gap:10px;
+}
+.hero-eyebrow::before{content:'';width:28px;height:1px;background:var(--terracotta);}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(50px,5.5vw,76px);
+  line-height:1.05;font-weight:600;
+  color:var(--ink);margin-bottom:22px;
+}
+.hero h1 em{color:var(--terracotta);font-style:italic;font-weight:300;}
+.hero p{color:var(--ink3);font-size:16px;line-height:1.75;margin-bottom:36px;max-width:460px;font-weight:300;}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;}
+.hero-visual{position:relative;}
+
+/* HERO IMAGE MOSAIC */
+.hero-mosaic{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:220px 160px;gap:12px;}
+.mosaic-item{border-radius:var(--radius);overflow:hidden;position:relative;}
+.mosaic-item img{width:100%;height:100%;object-fit:cover;transition:.5s ease;display:block;}
+.mosaic-item:hover img{transform:scale(1.04);}
+.mosaic-item:first-child{grid-row:span 2;}
+.mosaic-item .mosaic-label{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent, rgba(28,25,23,.55));
+  padding:18px 14px 12px;
+  color:#fff;font-size:12px;font-weight:500;letter-spacing:.06em;
+  text-transform:uppercase;
+}
+.hero-bg-deco{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 80% 40%, rgba(181,103,74,.06) 0%, transparent 55%),
+             radial-gradient(ellipse at 10% 80%, rgba(122,158,142,.05) 0%, transparent 50%);
+  pointer-events:none;
+}
+
+/* ══ ANNOUNCEMENT STRIP ══ */
+.strip{
+  background:var(--ink);color:var(--cream2);
+  display:flex;align-items:center;justify-content:center;
+  gap:48px;padding:11px 40px;
+  font-size:12px;font-weight:400;letter-spacing:.06em;overflow:hidden;
+}
+.strip span{display:flex;align-items:center;gap:8px;white-space:nowrap;}
+.strip span i{color:var(--terracotta2);}
+
+/* ══════════════════════════════════════
+   SECTION WRAPPER
+══════════════════════════════════════ */
+.section{max-width:1440px;margin:0 auto;padding:64px 40px;}
+.section-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:36px;}
+.section-header h2{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;color:var(--ink);}
+.section-header p{color:var(--ink4);font-size:13.5px;margin-top:6px;font-weight:300;}
+.section-header a{font-size:13px;color:var(--terracotta);text-decoration:none;cursor:pointer;font-weight:500;letter-spacing:.04em;white-space:nowrap;}
+.section-header a:hover{text-decoration:underline;}
+
+/* ══ CATEGORY CARDS ══ */
+.cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:14px;}
+.cat-card{
+  background:var(--warm-white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;
+  transition:.25s;
+}
+.cat-card:hover{border-color:var(--terracotta);transform:translateY(-3px);box-shadow:var(--shadow-md);}
+.cat-card-img{width:100%;height:110px;object-fit:cover;background:var(--cream3);display:block;}
+.cat-card-body{padding:13px 14px;}
+.cat-card h3{font-size:13.5px;font-weight:600;color:var(--ink);margin-bottom:2px;}
+.cat-card p{font-size:11.5px;color:var(--ink4);}
+
+/* ══ PRODUCT CARDS ══ */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:22px;}
+.product-card{
+  background:var(--warm-white);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);
+  overflow:hidden;cursor:pointer;
+  transition:.25s;position:relative;
+}
+.product-card:hover{border-color:var(--terracotta);transform:translateY(-4px);box-shadow:var(--shadow-md);}
+.product-card:hover .pc-actions{opacity:1;transform:translateY(0);}
+.pc-img-wrap{position:relative;overflow:hidden;background:var(--cream2);}
+.pc-img{width:100%;height:210px;object-fit:cover;display:block;transition:.45s;}
+.product-card:hover .pc-img{transform:scale(1.03);}
+.pc-badge{position:absolute;top:12px;left:12px;display:flex;flex-direction:column;gap:5px;}
+.pc-wish{
+  position:absolute;top:12px;right:12px;
+  background:rgba(250,247,242,.88);
+  border:1px solid var(--border);
+  color:var(--ink3);width:34px;height:34px;border-radius:50%;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  font-size:15px;transition:.2s;
+  backdrop-filter:blur(4px);
+}
+.pc-wish:hover,.pc-wish.active{color:var(--dusty-rose);border-color:var(--dusty-rose);}
+.pc-actions{
+  position:absolute;bottom:0;left:0;right:0;
+  background:linear-gradient(transparent,rgba(28,25,23,.45));
+  padding:24px 12px 12px;
+  display:flex;gap:8px;
+  opacity:0;transform:translateY(8px);transition:.25s;
+}
+.pc-actions .btn{flex:1;font-size:12px;padding:9px 10px;}
+.pc-body{padding:16px;}
+.pc-brand{font-size:10.5px;color:var(--ink4);letter-spacing:.1em;text-transform:uppercase;margin-bottom:5px;}
+.pc-name{font-size:14.5px;font-weight:500;color:var(--ink);margin-bottom:9px;line-height:1.4;}
+.pc-rating{display:flex;align-items:center;gap:6px;margin-bottom:11px;}
+.stars{color:var(--terracotta);font-size:12px;letter-spacing:.02em;}
+.pc-rating span{font-size:12px;color:var(--ink4);}
+.pc-price{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.pc-price .current{font-size:18px;font-weight:600;color:var(--ink);}
+.pc-price .original{font-size:12.5px;color:var(--ink5);text-decoration:line-through;}
+.pc-price .disc{font-size:11px;color:var(--sage);font-weight:600;background:var(--sage-dim);padding:2px 8px;border-radius:12px;}
+
+/* ══ DEAL BANNER ══ */
+.deal-banner{
+  background:linear-gradient(135deg,#f7ede3 0%,#fdf6ef 50%,#f2e8de 100%);
+  border:1px solid var(--parchment);border-radius:18px;
+  padding:54px 60px;
+  display:flex;align-items:center;justify-content:space-between;
+  gap:40px;flex-wrap:wrap;position:relative;overflow:hidden;
+}
+.deal-banner::before{
+  content:'♩';position:absolute;right:220px;top:-20px;
+  font-size:160px;color:rgba(181,103,74,.06);
+  font-family:'Cormorant Garamond',serif;
+  pointer-events:none;
+}
+.deal-banner h2{font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1.2;color:var(--ink);}
+.deal-banner p{color:var(--ink3);font-size:15px;font-weight:300;margin-top:8px;}
+.deal-countdown{display:flex;gap:14px;}
+.countdown-box{
+  background:var(--warm-white);
+  border:1px solid var(--border);
+  border-radius:12px;padding:18px 22px;text-align:center;min-width:76px;
+  box-shadow:var(--shadow-sm);
+}
+.countdown-box .num{font-family:'Cormorant Garamond',serif;font-size:36px;font-weight:600;color:var(--terracotta);line-height:1;}
+.countdown-box .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-top:4px;}
+
+/* ══ REVIEWS ══ */
+.reviews-bg{background:var(--cream2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.reviews-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:18px;}
+.review-card{
+  background:var(--warm-white);
+  border:1px solid var(--border2);
+  border-radius:var(--radius);padding:24px;
+  position:relative;
+}
+.review-card::before{
+  content:'\201C';position:absolute;top:14px;right:18px;
+  font-family:'Cormorant Garamond',serif;font-size:56px;
+  color:var(--terracotta-dim2);line-height:1;pointer-events:none;
+}
+.review-card .stars{margin-bottom:11px;font-size:13px;}
+.review-card p{font-size:13.5px;color:var(--ink2);line-height:1.7;margin-bottom:18px;font-weight:300;}
+.reviewer{display:flex;align-items:center;gap:11px;}
+.reviewer-avatar{width:38px;height:38px;border-radius:50%;background:var(--terracotta-dim2);display:flex;align-items:center;justify-content:center;color:var(--terracotta);font-weight:600;font-size:15px;font-family:'Cormorant Garamond',serif;}
+.reviewer-name{font-size:13px;font-weight:600;color:var(--ink);}
+.reviewer-loc{font-size:11px;color:var(--ink4);}
+
+/* ══ FOOTER ══ */
+footer{background:var(--ink);color:var(--cream2);}
+.footer-main{max-width:1440px;margin:0 auto;padding:64px 40px 48px;display:grid;grid-template-columns:2.2fr 1fr 1fr 1fr;gap:48px;}
+.footer-logo{font-family:'Cormorant Garamond',serif;font-size:24px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--cream);margin-bottom:16px;display:block;}
+.footer-logo span{color:var(--terracotta2);}
+.footer-brand p{color:rgba(232,224,208,.5);font-size:13px;line-height:1.75;max-width:270px;font-weight:300;}
+.footer-brand .socials{display:flex;gap:10px;margin-top:20px;}
+.social-btn{width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:rgba(232,224,208,.6);font-size:15px;cursor:pointer;transition:.2s;text-decoration:none;}
+.social-btn:hover{border-color:var(--terracotta2);color:var(--terracotta2);}
+.footer-col h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;margin-bottom:18px;color:var(--cream2);}
+.footer-col ul{list-style:none;}
+.footer-col ul li{margin-bottom:11px;}
+.footer-col ul li a{font-size:13px;color:rgba(232,224,208,.5);text-decoration:none;cursor:pointer;transition:.15s;font-weight:300;}
+.footer-col ul li a:hover{color:var(--terracotta2);}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding:20px 40px;max-width:1440px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;font-size:12px;color:rgba(232,224,208,.35);}
+.payment-icons{display:flex;gap:8px;}
+.pay-icon{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:5px;padding:4px 10px;font-size:11px;color:rgba(232,224,208,.45);}
+
+/* ══════════════════════════════════════
+   PRODUCT LIST PAGE
+══════════════════════════════════════ */
+.pl-layout{display:grid;grid-template-columns:268px 1fr;gap:28px;max-width:1440px;margin:0 auto;padding:32px 40px;}
+.filter-sidebar{
+  background:var(--warm-white);
+  border:1px solid var(--border);
+  border-radius:var(--radius);
+  padding:26px;
+  height:fit-content;
+  position:sticky;top:128px;
+}
+.filter-sidebar h3{font-family:'Cormorant Garamond',serif;font-size:20px;font-weight:600;margin-bottom:22px;display:flex;align-items:center;justify-content:space-between;}
+.filter-sidebar h3 button{font-size:12px;color:var(--terracotta);background:none;border:none;cursor:pointer;font-family:'Jost',sans-serif;}
+.filter-section{margin-bottom:24px;border-bottom:1px solid var(--border2);padding-bottom:20px;}
+.filter-section:last-child{border-bottom:none;margin-bottom:0;}
+.filter-section h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:13px;}
+.filter-check{display:flex;align-items:center;gap:9px;margin-bottom:9px;cursor:pointer;font-size:13px;color:var(--ink3);transition:.15s;}
+.filter-check:hover{color:var(--ink);}
+.filter-check input{accent-color:var(--terracotta);width:14px;height:14px;cursor:pointer;}
+.price-slider{width:100%;accent-color:var(--terracotta);cursor:pointer;height:4px;}
+.price-labels{display:flex;justify-content:space-between;font-size:12px;color:var(--ink4);margin-top:8px;}
+
+.pl-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px;}
+.pl-header h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;}
+.pl-header .count{font-size:13px;color:var(--ink4);}
+.pl-controls{display:flex;align-items:center;gap:10px;}
+.sort-select{background:var(--cream2);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--ink);padding:9px 14px;font-size:13px;outline:none;cursor:pointer;font-family:'Jost',sans-serif;}
+.sort-select:focus{border-color:var(--terracotta);}
+.view-toggle{display:flex;gap:4px;}
+.view-btn{background:var(--cream2);border:1px solid var(--border);color:var(--ink3);width:36px;height:36px;border-radius:var(--radius-xs);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:.15s;font-size:15px;}
+.view-btn.active,.view-btn:hover{border-color:var(--terracotta);color:var(--terracotta);}
+.product-list-view{display:flex;flex-direction:column;gap:16px;}
+.product-list-item{background:var(--warm-white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:grid;grid-template-columns:150px 1fr auto;gap:18px;align-items:center;cursor:pointer;transition:.2s;}
+.product-list-item:hover{border-color:var(--terracotta);box-shadow:var(--shadow-sm);}
+.product-list-item img{width:100%;height:110px;object-fit:cover;border-radius:var(--radius-sm);background:var(--cream3);}
+.pli-details h3{font-size:16px;font-weight:500;margin-bottom:6px;color:var(--ink);}
+.pli-details p{font-size:13px;color:var(--ink3);line-height:1.65;font-weight:300;}
+.pli-actions{display:flex;flex-direction:column;align-items:flex-end;gap:10px;min-width:140px;}
+
+/* ══════════════════════════════════════
+   PRODUCT DETAIL
+══════════════════════════════════════ */
+.pd-layout{max-width:1440px;margin:0 auto;padding:32px 40px;}
+.breadcrumb{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink4);margin-bottom:30px;}
+.breadcrumb span{cursor:pointer;transition:.15s;}
+.breadcrumb span:hover{color:var(--terracotta);}
+.breadcrumb .sep{color:var(--border);}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;margin-bottom:60px;}
+.pd-images{position:sticky;top:128px;}
+.pd-main-img{width:100%;height:440px;object-fit:cover;border-radius:var(--radius);background:var(--cream2);border:1px solid var(--border);margin-bottom:12px;}
+.pd-images .pd-thumbs{display:flex;gap:10px;}
+.pd-thumb{width:72px;height:72px;object-fit:cover;border-radius:var(--radius-sm);background:var(--cream3);border:2px solid var(--border2);cursor:pointer;transition:.2s;}
+.pd-thumb.active,.pd-thumb:hover{border-color:var(--terracotta);}
+.pd-info h1{font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;line-height:1.2;margin-bottom:14px;color:var(--ink);}
+.pd-meta{display:flex;align-items:center;gap:14px;margin-bottom:22px;flex-wrap:wrap;}
+.pd-rating-big{display:flex;align-items:center;gap:8px;}
+.pd-rating-big .stars{font-size:15px;}
+.pd-rating-big span{font-size:13.5px;color:var(--ink4);}
+.pd-price-big{font-size:38px;font-weight:600;color:var(--ink);font-family:'Cormorant Garamond',serif;}
+.pd-price-row{display:flex;align-items:center;gap:14px;margin-bottom:26px;}
+.pd-original{font-size:18px;color:var(--ink5);text-decoration:line-through;font-family:'Cormorant Garamond',serif;}
+.pd-discount{background:var(--sage-dim);color:var(--sage);border:1px solid rgba(122,158,142,.25);padding:4px 10px;border-radius:5px;font-size:12px;font-weight:600;}
+.pd-options{margin-bottom:24px;}
+.pd-options h4{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.1em;color:var(--ink4);margin-bottom:11px;}
+.option-pills{display:flex;gap:8px;flex-wrap:wrap;}
+.option-pill{padding:7px 16px;border-radius:var(--radius-xs);border:1.5px solid var(--border);font-size:13px;cursor:pointer;transition:.15s;background:transparent;color:var(--ink2);font-family:'Jost',sans-serif;}
+.option-pill:hover,.option-pill.active{border-color:var(--terracotta);color:var(--terracotta);background:var(--terracotta-dim);}
+.pd-qty{display:flex;align-items:center;gap:16px;margin-bottom:26px;}
+.qty-ctrl{display:flex;align-items:center;border:1.5px solid var(--border);border-radius:var(--radius-sm);overflow:hidden;}
+.qty-ctrl button{background:var(--cream2);border:none;color:var(--ink);width:40px;height:40px;cursor:pointer;font-size:18px;transition:.15s;display:flex;align-items:center;justify-content:center;}
+.qty-ctrl button:hover{background:var(--cream3);color:var(--terracotta);}
+.qty-ctrl span{padding:0 20px;font-size:15px;background:var(--warm-white);height:40px;display:flex;align-items:center;border-left:1px solid var(--border);border-right:1px solid var(--border);font-weight:600;}
+.pd-actions{display:flex;gap:12px;margin-bottom:28px;}
+.pd-features{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;background:var(--warm-white);}
+.pd-feature{display:flex;align-items:center;gap:14px;padding:14px 18px;border-bottom:1px solid var(--border2);font-size:13.5px;}
+.pd-feature:last-child{border-bottom:none;}
+.pd-feature .icon{color:var(--terracotta);font-size:18px;width:24px;text-align:center;}
+.pd-feature .txt{color:var(--ink3);}
+.pd-feature .txt strong{color:var(--ink);}
+
+/* TABS */
+.tabs{border-bottom:1px solid var(--border);display:flex;gap:4px;margin-bottom:28px;}
+.tab-btn{padding:10px 20px;font-size:13.5px;font-weight:500;color:var(--ink4);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:.15s;font-family:'Jost',sans-serif;}
+.tab-btn:hover{color:var(--ink);}
+.tab-btn.active{color:var(--terracotta);border-bottom-color:var(--terracotta);}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeUp .2s ease;}
+.spec-table{width:100%;border-collapse:collapse;font-size:13.5px;}
+.spec-table tr:nth-child(odd) td{background:var(--cream2);}
+.spec-table td{padding:12px 16px;border:1px solid var(--border2);}
+.spec-table td:first-child{color:var(--ink3);width:38%;font-weight:500;}
+
+/* ══════════════════════════════════════
+   CART PAGE
+══════════════════════════════════════ */
+.cart-layout{max-width:1200px;margin:0 auto;padding:40px;display:grid;grid-template-columns:1fr 370px;gap:28px;}
+.cart-items h2{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:600;margin-bottom:22px;color:var(--ink);}
+.cart-item{background:var(--warm-white);border:1px solid var(--border);border-radius:var(--radius);padding:18px;display:grid;grid-template-columns:100px 1fr auto;gap:16px;align-items:center;margin-bottom:14px;}
+.cart-item img{width:100%;height:88px;object-fit:cover;border-radius:var(--radius-sm);background:var(--cream3);}
+.ci-name{font-size:15px;font-weight:500;margin-bottom:4px;cursor:pointer;color:var(--ink);}
+.ci-name:hover{color:var(--terracotta);}
+.ci-brand{font-size:11.5px;color:var(--ink4);margin-bottom:10px;}
+.ci-qty{display:flex;align-items:center;gap:12px;}
+.ci-price{font-size:18px;font-weight:600;color:var(--ink);text-align:right;font-family:'Cormorant Garamond',serif;}
+.ci-remove{background:none;border:none;color:var(--ink4);cursor:pointer;font-size:17px;transition:.15s;margin-top:6px;display:block;text-align:right;}
+.ci-remove:hover{color:#c0392b;}
+.cart-summary{background:var(--warm-white);border:1px solid var(--border);border-radius:var(--radius);padding:26px;height:fit-content;position:sticky;top:128px;}
+.cart-summary h3{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-bottom:22px;color:var(--ink);}
+.summary-row{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:12px;color:var(--ink3);}
+.summary-row.total{font-size:18px;font-weight:600;color:var(--ink);border-top:1px solid var(--border);padding-top:14px;margin-top:6px;}
+.coupon-row{display:flex;gap:8px;margin-bottom:18px;}
+.coupon-row input{flex:1;background:var(--cream);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--ink);padding:10px 13px;font-size:13px;outline:none;font-family:'Jost',sans-serif;}
+.coupon-row input:focus{border-color:var(--terracotta);}
+.empty-cart{text-align:center;padding:80px 20px;}
+.empty-cart i{font-size:48px;color:var(--ink5);margin-bottom:16px;}
+.empty-cart p{color:var(--ink4);font-size:15px;margin-bottom:24px;}
+</style>
+</head>
+<body>
+
+<div id="toast"></div>
+
+<header>
+  <div class="header-top">
+    <a href="#" onclick="navigate('home')" class="logo">ZIME <span>MUSICAL</span> <em>STORE</em></a>
+    
+    <div class="search-bar">
+      <i class="fa-solid fa-magnifying-glass search-icon"></i>
+      <input type="text" id="searchInput" placeholder="Search instruments, brands..." oninput="handleSearch(this.value)">
+      <div id="searchResults" class="search-results hidden"></div>
+    </div>
+
+    <div class="header-actions">
+      <button class="icon-btn" onclick="showToast('Wishlist feature coming soon!', 'info')">
+        <i class="fa-regular fa-heart"></i>
+      </button>
+      <button class="icon-btn" onclick="navigate('cart')">
+        <i class="fa-solid fa-bag-shopping"></i>
+        <span class="badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+
+  <nav class="nav-bar">
+    <button class="nav-link active" onclick="handleNavClick(this, 'home')">Home</button>
+    <button class="nav-link" onclick="handleNavClick(this, 'catalog', 'all')">All Catalog</button>
+    <button class="nav-link" onclick="handleNavClick(this, 'catalog', 'Guitars')">Guitars</button>
+    <button class="nav-link" onclick="handleNavClick(this, 'catalog', 'Keyboards')">Keyboards</button>
+    <button class="nav-link" onclick="handleNavClick(this, 'catalog', 'Violins')">Violins</button>
+    <button class="nav-link" onclick="handleNavClick(this, 'catalog', 'Studio')">Studio Equipment</button>
+  </nav>
+</header>
+
+<div class="strip">
+  <span><i class="fa-solid fa-truck-fast"></i> Complimentary Insured Delivery on Fine Instruments</span>
+  <span><i class="fa-solid fa-certificate"></i> Verified 5-Year Luxury Warranty Protection</span>
+  <span><i class="fa-solid fa-sliders"></i> Master Workshop Setup & Custom Inspection Included</span>
+</div>
+
+<div id="page-home" class="page active">
+  <section class="hero">
+    <div class="hero-inner">
+      <div>
+        <div class="hero-eyebrow">Acoustic Perfection Defined</div>
+        <h1>Masterfully Crafting <em>Timeless Sound.</em></h1>
+        <p>Welcome to Zime Musical Store. Explore an elite collection of premium, historically rich guitars, boutique synths, and rare concert-grade instruments calibrated by master technicians.</p>
+        <div class="hero-cta">
+          <button class="btn btn-primary btn-lg" onclick="navigate('catalog')">Discover the Catalog</button>
+          <button class="btn btn-outline btn-lg" onclick="showToast('Boutique appointment slots full today!', 'info')">Book Gallery Viewing</button>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="hero-mosaic">
+          <div class="mosaic-item"><img src="https://images.unsplash.com/photo-1550985616-10810253b84d?auto=format&fit=cover&w=400&q=80" alt="Concert Piano"><div class="mosaic-label">Acoustic Excellence</div></div>
+          <div class="mosaic-item"><img src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=cover&w=400&q=80" alt="Premium Guitar"><div class="mosaic-label">Boutique Craft</div></div>
+          <div class="mosaic-item"><img src="https://images.unsplash.com/photo-1615112108119-01c56b7f33d7?auto=format&fit=cover&w=400&q=80" alt="Violin Studio"><div class="mosaic-label">Legacy Orchestral</div></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-bg-deco"></div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <h2>Curated Masterpiece Collections</h2>
+        <p>Select a crafted division to reveal your ideal sound signature</p>
+      </div>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card" onclick="handleNavClick(null, 'catalog', 'Guitars')">
+        <img class="cat-card-img" src="https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=cover&w=200&q=80" alt="Guitars">
+        <div class="cat-card-body"><h3>Grand Guitars</h3><p>Acoustic & Premium Electric</p></div>
+      </div>
+      <div class="cat-card" onclick="handleNavClick(null, 'catalog', 'Keyboards')">
+        <img class="cat-card-img" src="https://images.unsplash.com/photo-1552422535-c45813c61732?auto=format&fit=cover&w=200&q=80" alt="Keyboards">
+        <div class="cat-card-body"><h3>Master Stage Pianos</h3><p>Synths & Weighted Actions</p></div>
+      </div>
+      <div class="cat-card" onclick="handleNavClick(null, 'catalog', 'Violins')">
+        <img class="cat-card-img" src="https://images.unsplash.com/photo-1612122407103-7cf58ea346d0?auto=format&fit=cover&w=200&q=80" alt="Violins">
+        <div class="cat-card-body"><h3>Concert Orchestral</h3><p>Hand-carved Violins & Cellos</p></div>
+      </div>
+      <div class="cat-card" onclick="handleNavClick(null, 'catalog', 'Studio')">
+        <img class="cat-card-img" src="https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=cover&w=200&q=80" alt="Studio Gear">
+        <div class="cat-card-body"><h3>Studio Pro Stage</h3><p>Microphones & Sound Systems</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" style="background:var(--warm-white); border-top:1px solid var(--border2); border-bottom:1px solid var(--border2);">
+    <div class="section-header">
+      <div>
+        <h2>Acclaimed Vault Exclusives</h2>
+        <p>Award-winning premium instruments currently spotlighted worldwide</p>
+      </div>
+      <a onclick="navigate('catalog')">View Entire Collection <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    <div class="product-grid" id="homeFeaturedGrid"></div>
+  </section>
+
+  <section class="section">
+    <div class="deal-banner">
+      <div>
+        <span class="tag tag-sage" style="margin-bottom:12px;">Limited Workshop Allocation</span>
+        <h2>The Heritage Series Grand Piano</h2>
+        <p>A strictly certified masterwork model complete with original concert polish, available once this season.</p>
+        <div style="margin-top:24px;">
+          <button class="btn btn-primary" onclick="openProduct(2)">Acquire Allocation Details</button>
+        </div>
+      </div>
+      <div class="deal-countdown">
+        <div class="countdown-box"><div class="num" id="cd-h">08</div><div class="lbl">Hours</div></div>
+        <div class="countdown-box"><div class="num" id="cd-m">34</div><div class="lbl">Mins</div></div>
+        <div class="countdown-box"><div class="num" id="cd-s">12</div><div class="lbl">Secs</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section reviews-bg">
+    <div class="section-header" style="justify-content:center; text-align:center;">
+      <div>
+        <h2>Endorsed by Virtuosos</h2>
+        <p>Read true legacy impressions from concertmasters and recording professionals</p>
+      </div>
+    </div>
+    <div class="reviews-grid">
+      <div class="review-card">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"The responsiveness of their workshop tuning is phenomenal. My studio setup has completely shifted since purchasing the master tube mic package."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">AH</div>
+          <div><div class="reviewer-name">Aleksey Hoffmann</div><div class="reviewer-loc">Berlin Symphony Principal</div></div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="stars"><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i></div>
+        <p>"Zime Musical Store treated this purchase like high art. The packaging alone was pristine mahogany canvas padding. Outstanding service."</p>
+        <div class="reviewer">
+          <div class="reviewer-avatar">EM</div>
+          <div><div class="reviewer-name">Elena Moretti</div><div class="reviewer-loc">Grammy-Nominated Producer</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<div id="page-catalog" class="page">
+  <div class="pl-layout">
+    <aside class="filter-sidebar">
+      <h3>Filters <button onclick="resetFilters()">Clear All</button></h3>
+      
+      <div class="filter-section">
+        <h4>Collection Division</h4>
+        <label class="filter-check"><input type="checkbox" value="Guitars" onchange="filterChange()"> Guitars</label>
+        <label class="filter-check"><input type="checkbox" value="Keyboards" onchange="filterChange()"> Keyboards</label>
+        <label class="filter-check"><input type="checkbox" value="Violins" onchange="filterChange()"> Violins</label>
+        <label class="filter-check"><input type="checkbox" value="Studio" onchange="filterChange()"> Studio Hardware</label>
+      </div>
+
+      <div class="filter-section">
+        <h4>Price Range Cap</h4>
+        <input type="range" class="price-slider" id="priceRange" min="20000" max="600000" step="10000" value="600000" oninput="updatePriceLabel(this.value)">
+        <div class="price-labels">
+          <span>₹20,000</span>
+          <span id="priceLabel">₹600,000</span>
+        </div>
+      </div>
+
+      <div class="filter-section">
+        <h4>Vault Condition Availability</h4>
+        <label class="filter-check"><input type="checkbox" value="instock" onchange="filterChange()" checked> In Stock Only</label>
+        <label class="filter-check"><input type="checkbox" value="promo" onchange="filterChange()"> Allocation Special Promotions</label>
+      </div>
+    </aside>
+
+    <main>
+      <div class="pl-header">
+        <div>
+          <h2 id="catalogTitle">Entire Curated Catalog</h2>
+          <div class="count" id="catalogCount">Showing 6 rare musical items</div>
+        </div>
+        <div class="pl-controls">
+          <select class="sort-select" id="sortSelect" onchange="filterChange()">
+            <option value="default">Default Legacy Sorting</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: Masterpiece Tiers First</option>
+            <option value="rating">Highest Critic Endorsement</option>
+          </select>
+          <div class="view-toggle">
+            <button class="view-btn active" id="btn-grid-view" onclick="setViewMode('grid')"><i class="fa-solid fa-grid-2"></i> Grid</button>
+            <button class="view-btn" id="btn-list-view" onclick="setViewMode('list')"><i class="fa-solid fa-list"></i> List</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="catalogContainer" class="product-grid"></div>
+    </main>
+  </div>
+</div>
+
+<div id="page-product" class="page">
+  <div class="pd-layout" id="productDetailContainer"></div>
+</div>
+
+<div id="page-cart" class="page">
+  <div class="cart-layout" id="cartLayoutContainer"></div>
+</div>
+
+<footer>
+  <div class="footer-main">
+    <div class="footer-brand">
+      <span class="footer-logo">ZIME <span>MUSICAL</span></span>
+      <p>Providing pristine tone, grand acoustics, and luxurious technical verification services across worldwide borders since inception.</p>
+      <div class="socials">
+        <a class="social-btn" href="#"><i class="fa-brands fa-instagram"></i></a>
+        <a class="social-btn" href="#"><i class="fa-brands fa-facebook-f"></i></a>
+        <a class="social-btn" href="#"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Showroom Galleries</h4>
+      <ul>
+        <li><a>Grand Milano Lounge</a></li>
+        <li><a>London Tone Archway</a></li>
+        <li><a>Tokyo Acoustic Chamber</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Patron Services</h4>
+      <ul>
+        <li><a>Climate-Controlled Transit</a></li>
+        <li><a>Master Tuning Booking</a></li>
+        <li><a>Vault Insurance Coverage</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Inquiries & Legal</h4>
+      <ul>
+        <li><a>Contact Atelier Staff</a></li>
+        <li><a>Privacy Framework</a></li>
+        <li><a>Terms of Acquisition</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <div>&copy; 2026 Zime Musical Store. Handcrafted digital environment code.</div>
+    <div class="payment-icons">
+      <span class="pay-icon"><i class="fa-brands fa-cc-visa"></i> Visa Secure</span>
+      <span class="pay-icon"><i class="fa-brands fa-cc-mastercard"></i> Mastercard ID Check</span>
+      <span class="pay-icon"><i class="fa-brands fa-cc-amex"></i> Amex Express Checkout</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ════════ STORE MASTER CATALOG ARCHITECTURE ════════ */
+const productsDataset = [
+  {
+    id: 1,
+    name: "Aurelia Concert Master Violin",
+    brand: "Stradivari Atelier Wood",
+    cat: "Violins",
+    price: 340000,
+    oldPrice: 410000,
+    rating: 4.9,
+    reviews: 24,
+    instock: true,
+    promo: true,
+    badge: "Masterwork Heritage",
+    img: "https://images.unsplash.com/photo-1612122407103-7cf58ea346d0?auto=format&fit=cover&w=600&q=80",
+    desc: "A stunning piece made of highly figured alpine spruce from hand-selected legacy forests. Provides exceptional projection, clear tonal definition, and warmth intended for concert-level orchestral solos.",
+    specs: { "Body Wood": "European Alpine Aged Spruce", "Finish": "Natural Historic Amber Oil Varnished", "Pegs/Tailpiece": "Fine Madagascar Ebony Wood", "Strings": "Evah Pirazzi Master Gold Setup" }
+  },
+  {
+    id: 2,
+    name: "Heritage Series Majestic Grand Piano",
+    brand: "Steinbach Atelier & Sons",
+    cat: "Keyboards",
+    price: 580000,
+    oldPrice: null,
+    rating: 5.0,
+    reviews: 18,
+    instock: true,
+    promo: false,
+    badge: "Vault Rare Piece",
+    img: "https://images.unsplash.com/photo-1550985616-10810253b84d?auto=format&fit=cover&w=600&q=80",
+    desc: "Calibrated explicitly for immaculate spatial acoustic environments, featuring premier soundboards and authentic responsive heavy wooden core action keys.",
+    specs: { "Keys Type": "88 Full Weighted Linear Ivory-feel Core", "Soundboard": "Solid Carpathian Crown Spruce", "Pedals": "Damper, Sostenuto, Soft Pedaling brass", "Weight": "380 kg Master Weight" }
+  },
+  {
+    id: 3,
+    name: "Delft Premium Flame Electric Archtop",
+    brand: "Gibson Heritage Division",
+    cat: "Guitars",
+    price: 185000,
+    oldPrice: 210000,
+    rating: 4.8,
+    reviews: 42,
+    instock: true,
+    promo: true,
+    badge: "Boutique Choice",
+    img: "https://images.unsplash.com/photo-1510915361894-db8b60106cb1?auto=format&fit=cover&w=600&q=80",
+    desc: "A gorgeous jazz and blues powerhouse offering a rich, warm hollow-body tone coupled with beautiful natural resonance from hand-buffed lacquer flame maple woods.",
+    specs: { "Body Construction": "AAA Flamed Laminate Maple Archtop", "Pickups": "Dual Hand-Wound Custom Alnico Vintage Humbuckers", "Neck Profile": "1959 Vintage Rounded C Handshape", "Hardware": "Luxury Gold-plated Tuning Machines" }
+  },
+  {
+    id: 4,
+    name: "Valhalla Premium Tube Studio Microphone",
+    brand: "Telefunken Labs Pro",
+    cat: "Studio",
+    price: 92000,
+    oldPrice: null,
+    rating: 4.9,
+    reviews: 15,
+    instock: true,
+    promo: false,
+    badge: "Studio Reference",
+    img: "https://images.unsplash.com/photo-1598488035139-bdbb2231ce04?auto=format&fit=cover&w=600&q=80",
+    desc: "Revered studio master tool for capturing vocals with silk high frequencies and high-fidelity low proximity effects. Employs vintage NOS circuits.",
+    specs: { "Capsule Type": "1-inch Pure Gold-sputtered Dual Diaphragm", "Vacuum Tube": "Premium Selected NOS 6072A Core", "Polar Patterns": "Omni, Cardioid, Figure-8 Variable Console", "Power Supply": "Isolated Low Noise DC Calibration Box" }
+  },
+  {
+    id: 5,
+    name: "Chronos Polyphonic Desktop Synthesizer",
+    brand: "Oberheim Analog Forge",
+    cat: "Keyboards",
+    price: 145000,
+    oldPrice: 165000,
+    rating: 4.7,
+    reviews: 31,
+    instock: true,
+    promo: true,
+    badge: "Analog Classic",
+    img: "https://images.unsplash.com/photo-1615112108119-01c56b7f33d7?auto=format&fit=cover&w=600&q=80",
+    desc: "A true zero-latency hardware analog monster designed with high-grade premium potentiometer controls, delivering classic lush filtering pads and deep bass harmonics.",
+    specs: { "Voice Architecture": "8-Voice Authentic True Analog Pathing", "Oscillators": "2 Discrete SEM Core Wave Generators per Voice", "Filter System": "Classic State Variable 2-Pole Filters", "Chassis": "Real Walnut Wooden Cheek Accents" }
+  },
+  {
+    id: 6,
+    name: "Artemis Elite Roasted Maple Bass",
+    brand: "Sadowsky Custom Atelier",
+    cat: "Guitars",
+    price: 240000,
+    oldPrice: null,
+    rating: 4.9,
+    reviews: 19,
+    instock: true,
+    promo: false,
+    badge: "Vault Selection",
+    img: "https://images.unsplash.com/photo-1448375240586-882707db888b?auto=format&fit=cover&w=600&q=80",
+    desc: "An incredible workhorse bass providing extreme punch, active dynamic premium controls, and unmatched neck stability from boutique baking processes.",
+    specs: { "Body Wood": "Lightweight Premium Southern Swamp Ash", "Neck Finish": "Roasted Birdseye Maple Satin Coating", "Electronics": "Custom Active 2-Way EQ Preamp Circuits", "Bridge": "High Mass Solid Brass Luxury Tailpiece" }
+  }
+];
+
+/* ════════ SYSTEM STATE MANAGEMENT ENGINE ════════ */
+let cartState = [];
+let currentFilterCategory = 'all';
+let viewMode = 'grid';
+let activeProductId = null;
+let activeQty = 1;
+
+/* INITIALIZATION HOOK */
+document.addEventListener("DOMContentLoaded", () => {
+  renderHomeFeatured();
+  updatePriceLabel(document.getElementById('priceRange').value);
+  filterChange(); // Render catalog items automatically
+});
+
+/* CORE ROUTING HANDLER */
+function navigate(pageId) {
+  document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+  const targetPage = document.getElementById(`page-${pageId}`);
+  if(targetPage) {
+    targetPage.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function handleNavClick(element, pageId, category = 'all') {
+  if (element) {
+    document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+    element.classList.add('active');
+  } else {
+    // Sync header bar links if category click came from cards
+    document.querySelectorAll('.nav-link').forEach(link => {
+      if(link.textContent.trim().toLowerCase() === category.toLowerCase() || (category === 'all' && link.textContent.trim() === 'All Catalog')) {
+        link.classList.add('active');
+      } else if (category !== 'all') {
+        document.querySelectorAll('.nav-link')[0].classList.remove('active');
+      }
+    });
+  }
+
+  currentFilterCategory = category;
+  
+  if (pageId === 'catalog') {
+    document.getElementById('catalogTitle').textContent = category === 'all' ? "Entire Curated Catalog" : `Curated ${category} Collection`;
+    // Clear sidebar collection check marks to sync clean category states
+    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(box => {
+      if(box.value !== 'instock' && box.value !== 'promo') {
+        box.checked = (box.value === category);
+      }
+    });
+    filterChange();
+  }
+
+  navigate(pageId);
+}
+
+/* ════════ SYSTEM COMPONENT INTERFACES ════════ */
+function showToast(text, type = 'success') {
+  const container = document.getElementById('toast');
+  const toast = document.createElement('div');
+  toast.className = `toast-item ${type}`;
+  
+  let prefixIcon = '<i class="fa-solid fa-circle-check"></i>';
+  if (type === 'error') prefixIcon = '<i class="fa-solid fa-circle-xmark"></i>';
+  if (type === 'info') prefixIcon = '<i class="fa-solid fa-circle-info"></i>';
+
+  toast.innerHTML = `${prefixIcon} <span>${text}</span>`;
+  container.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.opacity = '0';
+    toast.style.transform = 'translateY(-10px)';
+    setTimeout(() => toast.remove(), 300);
+  }, 3500);
+}
+
+function updatePriceLabel(value) {
+  document.getElementById('priceLabel').textContent = `₹${parseInt(value).toLocaleString('en-IN')}`;
+}
+
+/* REALTIME LIVE LIVE INDEX SEARCH PATTERN */
+function handleSearch(q) {
+  const box = document.getElementById('searchResults');
+  if(!q.trim()){box.classList.add('hidden'); return;}
+  
+  const res = productsDataset.filter(p => 
+    p.name.toLowerCase().includes(q.toLowerCase()) || 
+    p.brand.toLowerCase().includes(q.toLowerCase()) ||
+    p.cat.toLowerCase().includes(q.toLowerCase())
+  ).slice(0, 6);
+
+  if(!res.length){
+    box.innerHTML = `<div style="padding:15px; font-size:13px; color:var(--ink4); text-align:center;">No exquisite matches verified.</div>`;
+    box.classList.remove('hidden');
+    return;
+  }
+  
+  box.classList.remove('hidden');
+  box.innerHTML = res.map(p => `
+    <div class="search-result-item" onclick="openProduct(${p.id}); document.getElementById('searchInput').value=''; document.getElementById('searchResults').classList.add('hidden');">
+      <img src="${p.img}" alt="${p.name}">
+      <div>
+        <div class="sri-name">${p.name}</div>
+        <div class="sri-brand">${p.brand} · ${p.cat}</div>
+        <div class="sri-price">₹${p.price.toLocaleString('en-IN')}</div>
+      </div>
+    </div>`).join('');
+}
+
+// Close search dropdown on click away
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.search-bar')) {
+    document.getElementById('searchResults').classList.add('hidden');
+  }
+});
+
+/* RENDERING HOME HIGHLIGHTS */
+function renderHomeFeatured() {
+  const grid = document.getElementById('homeFeaturedGrid');
+  const items = productsDataset.slice(0, 3);
+  grid.innerHTML = items.map(p => generateProductCardHtml(p)).join('');
+}
+
+function generateProductCardHtml(p) {
+  const originalPriceHtml = p.oldPrice ? `<span class="original">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : '';
+  const discountBadgeHtml = p.oldPrice ? `<span class="disc">-${Math.round((p.oldPrice - p.price)/p.oldPrice * 100)}%</span>` : '';
+  
+  return `
+    <div class="product-card" onclick="openProduct(${p.id})">
+      <div class="pc-img-wrap">
+        <img class="pc-img" src="${p.img}" alt="${p.name}">
+        ${p.badge ? `<div class="pc-badge"><span class="tag">${p.badge}</span></div>` : ''}
+        <button class="pc-wish" onclick="event.stopPropagation(); this.classList.toggle('active'); showToast('Saved to fine list.', 'success');">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+        <div class="pc-actions">
+          <button class="btn btn-primary" onclick="event.stopPropagation(); fastAddToCart(${p.id})">
+            <i class="fa-solid fa-basket-shopping"></i> Quick Add
+          </button>
+        </div>
+      </div>
+      <div class="pc-body">
+        <div class="pc-brand">${p.brand}</div>
+        <div class="pc-name">${p.name}</div>
+        <div class="pc-rating">
+          <div class="stars"><i class="fa-solid fa-star"></i> <span>${p.rating}</span></div>
+          <span>(${p.reviews} Endorsements)</span>
+        </div>
+        <div class="pc-price">
+          <span class="current">₹${p.price.toLocaleString('en-IN')}</span>
+          ${originalPriceHtml}
+          ${discountBadgeHtml}
+        </div>
+      </div>
+    </div>`;
+}
+
+/* ════════ CATALOG FILTERING & RENDERING LOGIC ════════ */
+function setViewMode(mode) {
+  viewMode = mode;
+  document.getElementById('btn-grid-view').classList.toggle('active', mode === 'grid');
+  document.getElementById('btn-list-view').classList.toggle('active', mode === 'list');
+  
+  const container = document.getElementById('catalogContainer');
+  if(mode === 'list') {
+    container.className = 'product-list-view';
+  } else {
+    container.className = 'product-grid';
+  }
+  filterChange();
+}
+
+function resetFilters() {
+  document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(box => {
+    if(box.value === 'instock') box.checked = true;
+    else box.checked = false;
+  });
+  document.getElementById('priceRange').value = 600000;
+  updatePriceLabel(600000);
+  currentFilterCategory = 'all';
+  filterChange();
+}
+
+function filterChange() {
+  // Read Checked divisions
+  const checkedCats = [];
+  document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(box => {
+    if(box.checked && box.value !== 'instock' && box.value !== 'promo') {
+      checkedCats.push(box.value);
+    }
+  });
+
+  const maxPrice = parseInt(document.getElementById('priceRange').value);
+  const inStockOnly = document.querySelector('input[value="instock"]').checked;
+  const promoOnly = document.querySelector('input[value="promo"]').checked;
+
+  let filtered = productsDataset.filter(p => {
+    // If explicit navbar category was chosen, filter by it unless it's 'all'
+    if (currentFilterCategory !== 'all' && p.cat !== currentFilterCategory) return false;
+    // Sidebar overrides if checked
+    if (checkedCats.length > 0 && !checkedCats.includes(p.cat)) return false;
+    if (p.price > maxPrice) return false;
+    if (inStockOnly && !p.instock) return false;
+    if (promoOnly && !p.promo) return false;
+    return true;
+  });
+
+  // Handle Selection sorting
+  const sortBy = document.getElementById('sortSelect').value;
+  if(sortBy === 'price-asc') filtered.sort((a,b) => a.price - b.price);
+  else if(sortBy === 'price-desc') filtered.sort((a,b) => b.price - a.price);
+  else if(sortBy === 'rating') filtered.sort((a,b) => b.rating - a.rating);
+
+  // Update Counters
+  document.getElementById('catalogCount').textContent = `Showing ${filtered.length} elite instrument options`;
+
+  // Draw View Layouts
+  const container = document.getElementById('catalogContainer');
+  if(filtered.length === 0) {
+    container.innerHTML = `
+      <div style="grid-column: 1/-1; text-align:center; padding: 60px 20px;">
+        <i class="fa-solid fa-sliders" style="font-size:38px; color:var(--ink5); margin-bottom:12px;"></i>
+        <p style="color:var(--ink4);">No custom workshop parameters meet your requirements.</p>
+      </div>`;
+    return;
+  }
+
+  if(viewMode === 'grid') {
+    container.innerHTML = filtered.map(p => generateProductCardHtml(p)).join('');
+  } else {
+    container.innerHTML = filtered.map(p => `
+      <div class="product-list-item" onclick="openProduct(${p.id})">
+        <img src="${p.img}" alt="${p.name}">
+        <div class="pli-details">
+          <span class="tag" style="margin-bottom:6px;">${p.cat}</span>
+          <h3>${p.name}</h3>
+          <p style="margin-bottom:6px; font-weight:500; color:var(--ink2); font-size:12px;">${p.brand}</p>
+          <p>${p.desc}</p>
+        </div>
+        <div class="pli-actions">
+          <div style="font-size:20px; font-weight:600;">₹${p.price.toLocaleString('en-IN')}</div>
+          ${p.oldPrice ? `<div style="font-size:12px; color:var(--ink5); text-decoration:line-through;">₹${p.oldPrice.toLocaleString('en-IN')}</div>` : ''}
+          <button class="btn btn-primary btn-sm btn-full" style="margin-top:10px;" onclick="event.stopPropagation(); fastAddToCart(${p.id})">Acquire</button>
+        </div>
+      </div>`).join('');
+  }
+}
+
+/* ════════ DETAILS PRODUCT RENDERING VIEW ENGINE ════════ */
+function openProduct(id) {
+  activeProductId = id;
+  activeQty = 1;
+  const p = productsDataset.find(item => item.id === id);
+  if(!p) return;
+
+  const originalPriceRow = p.oldPrice ? `<span class="pd-original">₹${p.oldPrice.toLocaleString('en-IN')}</span>` : '';
+  const discountBadge = p.oldPrice ? `<span class="pd-discount">-${Math.round((p.oldPrice - p.price)/p.oldPrice * 100)}% Off Vault</span>` : '';
+
+  // Generate specification rows
+  let specRows = '';
+  for(const [key, value] of Object.entries(p.specs)) {
+    specRows += `<tr><td>${key}</td><td>${value}</td></tr>`;
+  }
+
+  const container = document.getElementById('productDetailContainer');
+  container.innerHTML = `
+    <div class="breadcrumb">
+      <span onclick="navigate('home')">Home</span> <span class="sep">/</span>
+      <span onclick="handleNavClick(null, 'catalog', '${p.cat}')">${p.cat}</span> <span class="sep">/</span>
+      <span style="color:var(--ink); font-weight:400;">${p.name}</span>
+    </div>
+
+    <div class="pd-grid">
+      <div class="pd-images">
+        <img class="pd-main-img" id="mainPdImg" src="${p.img}" alt="${p.name}">
+        <div class="pd-thumbs">
+          <img class="pd-thumb active" src="${p.img}" onclick="setPdImage(this, '${p.img}')">
+          <img class="pd-thumb" src="https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=cover&w=150&q=80" onclick="setPdImage(this, 'https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?auto=format&fit=cover&w=600&q=80')">
+        </div>
+      </div>
+
+      <div class="pd-info">
+        <span class="tag tag-sage" style="margin-bottom:12px;">${p.brand}</span>
+        <h1>${p.name}</h1>
+        
+        <div class="pd-meta">
+          <div class="pd-rating-big">
+            <div class="stars"><i class="fa-solid fa-star"></i> <strong>${p.rating}</strong></div>
+            <span>(${p.reviews} Verified Atelier Reviews)</span>
+          </div>
+        </div>
+
+        <div class="pd-price-row">
+          <span class="pd-price-big">₹${p.price.toLocaleString('en-IN')}</span>
+          ${originalPriceRow}
+          ${discountBadge}
+        </div>
+
+        <p style="color:var(--ink2); font-size:15px; line-height:1.75; margin-bottom:30px; font-weight:300;">${p.desc}</p>
+
+        <div class="pd-options">
+          <h4>Acoustic Wood Treatment Choice</h4>
+          <div class="option-pills">
+            <button class="option-pill active">Natural Varnished Lacquer</button>
+            <button class="option-pill">Polished Obsidian Gloss</button>
+          </div>
+        </div>
+
+        <div class="pd-qty">
+          <div class="qty-ctrl">
+            <button onclick="changeDetailQty(-1)"><i class="fa-solid fa-minus"></i></button>
+            <span id="detailQtyBox">1</span>
+            <button onclick="changeDetailQty(1)"><i class="fa-solid fa-plus"></i></button>
+          </div>
+          <span style="font-size:12.5px; color:var(--sage); font-weight:500;"><i class="fa-solid fa-circle-check"></i> Monitored Vault Unit Ready</span>
+        </div>
+
+        <div class="pd-actions">
+          <button class="btn btn-primary btn-lg" style="flex:1;" onclick="addActiveToCart()">Add Premium Allocation to Bag</button>
+          <button class="btn btn-outline btn-lg" onclick="showToast('Gallery booking added to waitlist.', 'info')"><i class="fa-regular fa-calendar"></i> Book In-Person Audition</button>
+        </div>
+
+        <div class="pd-features">
+          <div class="pd-feature">
+            <i class="fa-solid fa-shield-halved icon"></i>
+            <div class="txt"><strong>Complimentary Insured Delivery</strong> Transit protected inside custom structural wooden flight-cases.</div>
+          </div>
+          <div class="pd-feature">
+            <i class="fa-solid fa-rotate icon"></i>
+            <div class="txt"><strong>30-Day Master Exchange</strong> Returns processed smoothly via private collector arrangements.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab(this, 'specsTab')">Technical Blueprint Data</button>
+      <button class="tab-btn" onclick="switchTab(this, 'shippingTab')">Premium White-Glove Shipping</button>
+    </div>
+    
+    <div id="specsTab" class="tab-content active">
+      <table class="spec-table">${specRows}</table>
+    </div>
+    <div id="shippingTab" class="tab-content">
+      <p style="font-size:14px; color:var(--ink3); line-height:1.75; font-weight:300;">Each delicate instrument undergoes systematic atmospheric stabilization inside our private vaults for 24 hours prior to courier assignment. Dispatched via premium white-glove logistical networks inside heavy composite isolation padding to prevent vibration drift or hum changes.</p>
+    </div>
+  `;
+
+  navigate('product');
+}
+
+function setPdImage(el, src) {
+  document.querySelectorAll('.pd-thumb').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  document.getElementById('mainPdImg').src = src;
+}
+
+function changeDetailQty(amount) {
+  activeQty = Math.max(1, activeQty + amount);
+  document.getElementById('detailQtyBox').textContent = activeQty;
+}
+
+function switchTab(btn, tabId) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById(tabId).classList.add('active');
+}
+
+/* ════════ CORE PORTFOLIO CART ENGINE ════════ */
+function fastAddToCart(id) {
+  const p = productsDataset.find(item => item.id === id);
+  if(!p) return;
+  executeAdd(p, 1);
+}
+
+function addActiveToCart() {
+  const p = productsDataset.find(item => item.id === activeProductId);
+  if(!p) return;
+  executeAdd(p, activeQty);
+}
+
+function executeAdd(product, qty) {
+  const existing = cartState.find(item => item.product.id === product.id);
+  if(existing) {
+    existing.qty += qty;
+  } else {
+    cartState.push({ product, qty });
+  }
+  showToast(`Added ${qty} × ${product.name} cleanly to your secure allocation portfolio.`);
+  syncCartUi();
+}
+
+function updateCartQty(id, qty) {
+  const target = cartState.find(item => item.product.id === id);
+  if(!target) return;
+  target.qty = parseInt(qty);
+  if(target.qty <= 0) {
+    cartState = cartState.filter(item => item.product.id !== id);
+  }
+  syncCartUi();
+  renderCartPage();
+}
+
+function removeCartItem(id) {
+  cartState = cartState.filter(item => item.product.id !== id);
+  showToast("Item portfolio entry removed safely.", "info");
+  syncCartUi();
+  renderCartPage();
+}
+
+function syncCartUi() {
+  const totalCount = cartState.reduce((sum, item) => sum + item.qty, 0);
+  document.getElementById('cartBadge').textContent = totalCount;
+}
+
+/* RENDERING THE COMPREHENSIVE SHOPPING BAG PAGE */
+function renderCartPage() {
+  const container = document.getElementById('cartLayoutContainer');
+  
+  if(cartState.length === 0) {
+    container.className = 'empty-cart';
+    container.innerHTML = `
+      <i class="fa-solid fa-bag-shopping"></i>
+      <h2>Your Portfolio Bag is Unallocated</h2>
+      <p>There are currently no instruments held inside your signature acquisition drawer.</p>
+      <button class="btn btn-primary" onclick="navigate('catalog')">Browse Fine Masterworks</button>
+    `;
+    return;
+  }
+
+  container.className = 'cart-layout';
+  
+  // Compute prices
+  const itemSubtotal = cartState.reduce((sum, item) => sum + (item.product.price * item.qty), 0);
+  const secureTransitCost = itemSubtotal > 200000 ? 0 : 4500;
+  const grandTotalValue = itemSubtotal + secureTransitCost;
+
+  let itemsHtml = cartState.map(item => `
+    <div class="cart-item">
+      <img src="${item.product.img}" alt="${item.product.name}">
+      <div>
+        <div class="ci-name" onclick="openProduct(${item.product.id})">${item.product.name}</div>
+        <div class="ci-brand">${item.product.brand}</div>
+        <div class="ci-qty">
+          <div class="qty-ctrl" style="transform: scale(0.85); transform-origin: left center;">
+            <button onclick="updateCartQty(${item.product.id}, ${item.qty - 1})"><i class="fa-solid fa-minus"></i></button>
+            <span>${item.qty}</span>
+            <button onclick="updateCartQty(${item.product.id}, ${item.qty + 1})"><i class="fa-solid fa-plus"></i></button>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="ci-price">₹${(item.product.price * item.qty).toLocaleString('en-IN')}</div>
+        <button class="ci-remove" onclick="removeCartItem(${item.product.id})"><i class="fa-regular fa-trash-can"></i> Remove</button>
+      </div>
+    </div>
+  `).join('');
+
+  container.innerHTML = `
+    <div class="cart-items">
+      <h2>Your Fine Acquisitions Portfolio</h2>
+      ${itemsHtml}
+    </div>
+    
+    <div class="cart-summary">
+      <h3>Atelier Summary</h3>
+      <div class="summary-row"><span>Items Subtotal</span> <span>₹${itemSubtotal.toLocaleString('en-IN')}</span></div>
+      <div class="summary-row"><span>Insured Air Courier</span> <span>${secureTransitCost === 0 ? '<span style="color:var(--sage); font-weight:500;">Complimentary</span>' : '₹' + secureTransitCost.toLocaleString('en-IN')}</span></div>
+      
+      <div class="coupon-row" style="margin-top:16px;">
+        <input type="text" placeholder="Atelier Passcode Code" id="couponField">
+        <button class="btn btn-outline btn-sm" onclick="showToast('Private invitation codes full.', 'error')">Apply</button>
+      </div>
+
+      <div class="summary-row total"><span>Total Verified</span> <span>₹${grandTotalValue.toLocaleString('en-IN')}</span></div>
+      
+      <button class="btn btn-primary btn-full" style="margin-top:20px; padding:14px;" onclick="executeCheckout()">Initiate Insured Checkout</button>
+    </div>
+  `;
+}
+
+// Override standard cart link navigation to sync page rendering dynamically
+const oldNavigate = navigate;
+navigate = function(pageId) {
+  if (pageId === 'cart') {
+    renderCartPage();
+  }
+  oldNavigate(pageId);
+}
+
+function executeCheckout() {
+  showToast("Securing institutional transaction channel...", "success");
+  setTimeout(() => {
+    alert("Thank you for choosing Zime Musical Store. Your custom allocation process has been initialized with the workshop masters.");
+    cartState = [];
+    syncCartUi();
+    navigate('home');
+  }, 1200);
+}
+
+/* ════════ REFRESHING WORKSHOP COUTDOWN TIMER ════════ */
+let cdEnd = Date.now() + (8 * 3600 + 34 * 60 + 12) * 1000;
+setInterval(() => {
+  const d = Math.max(0, cdEnd - Date.now());
+  const hEl = document.getElementById('cd-h'), mEl = document.getElementById('cd-m'), sEl = document.getElementById('cd-s');
+  if(hEl) hEl.textContent = String(Math.floor(d / 3600000)).padStart(2, '0');
+  if(mEl) mEl.textContent = String(Math.floor((d % 3600000) / 60000)).padStart(2, '0');
+  if(sEl) sEl.textContent = String(Math.floor((d % 60000) / 1000)).padStart(2, '0');
+}, 1000);
+</script>
+</body>
+</html>
